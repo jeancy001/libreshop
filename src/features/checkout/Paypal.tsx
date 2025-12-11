@@ -21,6 +21,7 @@ function Paypal({value, description}:ProductsDetails) {
     window.paypal
       .Buttons({
         createOrder: (data:unknown, actions: any) => {
+            console.log(data)
           return actions.order.create({
             intent: "CAPTURE",
             purchase_units: [
@@ -32,10 +33,15 @@ function Paypal({value, description}:ProductsDetails) {
                 },
               },
             ],
-          });
+            
+          }
+        );
+
+        
         },
 
         onApprove: async (data: any, actions: any) => {
+          console.log(data)
           const order = await actions.order.capture();
           console.log("Successfully ordered");
           console.log(order);
