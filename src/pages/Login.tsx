@@ -42,67 +42,88 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen items-center justify-center px-4 bg-gray-100">
-      {/* Left Side */}
-      <div className="md:w-1/2 p-6 md:border-r-4 border-indigo-500 text-center">
-        <h1 className="text-3xl font-bold text-pink-600 mb-4">TTElectronics</h1>
-        <p className="text-gray-600">
-          TTElectronics is a global provider of engineered electronics that designs and manufactures advanced electronic components and custom solutions for industrial applications.
+    <div className="flex flex-col md:flex-row min-h-screen items-center justify-center px-6 bg-gray-100">
+
+      {/* Left side */}
+      <div className="md:w-1/2 p-8 md:border-r-4 border-pink-500 text-center">
+        <h1 className="text-4xl font-extrabold text-pink-600 mb-4 tracking-wide">TTElectronics</h1>
+        <p className="text-gray-600 leading-relaxed text-lg">
+          Providing advanced engineered electronics and smart solutions for industrial & consumer applications.
         </p>
-        <h3 className="mt-6 text-xl text-gray-500 border-b-2 inline-block">Product Pub...</h3>
+
+        <h3 className="mt-6 text-xl text-gray-600 border-b-2 border-gray-300 inline-block px-3 font-medium">
+          Product Pub...
+        </h3>
       </div>
 
-      {/* Right Side - Form */}
+      {/* Right side */}
       <div className="md:w-1/2 w-full max-w-md p-6">
-        <h3 className="text-center text-2xl text-pink-500 mb-4">Login</h3>
+        <h3 className="text-center text-3xl text-pink-600 font-bold mb-6">Login</h3>
 
-        <form onSubmit={handleSubmit} className="bg-gray-800 shadow-md rounded-lg p-6 space-y-4">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white shadow-xl border border-gray-200 rounded-2xl p-8 space-y-5"
+        >
           {error && <p className="text-red-600 text-center">{error}</p>}
           {success && <p className="text-green-600 text-center">{success}</p>}
 
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Type your Email"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-          />
-
-          <div className="relative">
+          {/* Email */}
+          <div>
+            <label className="block text-gray-700 mb-1 font-medium">Email</label>
             <input
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Type your Password"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="yourname@example.com"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 outline-none"
             />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute top-3 right-4 text-sm text-blue-500 hover:underline"
-            >
-              {showPassword ? 'Hide' : 'Show'}
-            </button>
           </div>
 
+          {/* Password */}
+          <div>
+            <label className="block text-gray-700 mb-1 font-medium">Password</label>
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 outline-none"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute top-3 right-4 text-sm text-gray-500 hover:text-pink-600 transition"
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
+          </div>
+
+          {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-pink-600 hover:bg-pink-700 text-white py-2 rounded transition duration-300"
+            className="w-full bg-pink-600 hover:bg-pink-700 text-white py-3 rounded-lg font-semibold shadow-md transition duration-300"
           >
-            {loading ? 'Fetching...' : 'Login'}
+            {loading ? 'Signing in...' : 'Login'}
           </button>
 
-          <div className="text-center text-sm text-gray-600">
+          {/* Links */}
+          <div className="text-center text-sm text-gray-600 mt-4">
             <p>
-              Forgot your password?{' '}
-              <a href="/recovery" className="text-blue-600 hover:underline">
+              Forgot your password?{" "}
+              <a href="/recovery" className="text-pink-600 hover:underline font-medium">
                 Recover it now
               </a>
             </p>
-            <p className="mt-2">Don’t have an account?</p>
+
+            <p className="mt-3">Don’t have an account?</p>
+
             <a
               href="/register"
-              className="inline-block mt-2 px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition"
+              className="inline-block mt-3 px-5 py-2 border border-pink-600 text-pink-600 rounded-lg hover:bg-pink-600 hover:text-white transition font-medium"
             >
               Register
             </a>

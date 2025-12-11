@@ -10,7 +10,7 @@ import SearchBar from '../components/SearchBar';
 const Home: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [pubs, setPubs] = useState<Pubs[]>([]);
-  const [search, setSearch] = useState<string>(''); // 🔍 search state
+  const [search, setSearch] = useState<string>(''); //
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 

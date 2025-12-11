@@ -7,6 +7,7 @@ import axios, { AxiosError } from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { API_URL } from "../constants/API_URL";
 import { useAuth } from "../context/AuthContext";
+import Paypal from "../features/checkout/Paypal";
 
 // 🧾 Modal to handle Order Submission
 const OrderFormModal = ({ onClose }: { onClose: () => void }) => {
@@ -163,6 +164,7 @@ const CartPage: React.FC = () => {
   const cartItems = useSelector((state: RootState) => state.cart.cart);
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
+  const [chechout , setCheckout] = useState(false)
 
   const totalPrice = cartItems.reduce(
     (total, item) => total + item.priceAfterDiscount * item.quantity,
@@ -176,6 +178,7 @@ const CartPage: React.FC = () => {
       </div>
     );
   }
+
 
   return (
     <div className="max-w-5xl mx-auto p-6">
@@ -241,12 +244,16 @@ const CartPage: React.FC = () => {
       </div>
 
       <div className="mt-6 text-right">
+
+        {chechout?(<Paypal value={`${totalPrice.toFixed(2)}`} description={cartItems.map((pro)=>pro.description).join(",")}/>):(
+
         <button
-          onClick={() => setShowModal(true)}
+          onClick={() => setCheckout(true)}
           className="bg-pink-600 text-white px-6 py-3 rounded-full hover:bg-pink-700 transition"
         >
-          ${totalPrice.toFixed(2)} Order Now
+          ${totalPrice.toFixed(2)} Checkout 
         </button>
+        )}
       </div>
 
       {showModal && <OrderFormModal onClose={() => setShowModal(false)} />}
