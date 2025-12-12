@@ -166,10 +166,17 @@ const CartPage: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [chechout , setCheckout] = useState(false)
 
-  const totalPrice = cartItems.reduce(
+  const totalPrice1 = cartItems.reduce(
     (total, item) => total + item.priceAfterDiscount * item.quantity,
     0
   );
+
+  const priceAfterApaymentToOwner = (totalPrice1*2)/100
+
+  const totalPrice = totalPrice1-priceAfterApaymentToOwner
+
+   console.log("Normal Price : ",totalPrice)
+  console.log("Price : ",priceAfterApaymentToOwner)
 
   if (cartItems.length === 0) {
     return (
@@ -179,6 +186,8 @@ const CartPage: React.FC = () => {
     );
   }
 
+// Automatic payment 
+//send to  the  backend  and  for  the  services
 
   return (
     <div className="max-w-5xl mx-auto p-6">
@@ -238,10 +247,12 @@ const CartPage: React.FC = () => {
 
       <div className="mt-8 flex justify-end items-center">
         <div className="text-lg font-semibold">
-          <span className="text-gray-400">With Discount:</span>
+          <span className="text-gray-400">With Discount and after Payment of 3%:</span>
           Total: <span className="text-pink-600 text-2xl font-bold">${totalPrice.toFixed(2)}</span>
         </div>
       </div>
+
+      
 
       <div className="mt-6 text-right">
 
@@ -254,6 +265,23 @@ const CartPage: React.FC = () => {
           ${totalPrice.toFixed(2)} Checkout 
         </button>
         )}
+      </div>
+
+
+        <div className="mt-6 text-right">
+       <span className="text-2xl text-gray-700">Order and pay on Devivery </span>
+         </div>
+
+
+      <div className="mt-6 text-right">
+
+        <button
+          onClick={() => setShowModal(true)}
+          className="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition"
+        >
+          ${totalPrice.toFixed(2)} Order Now
+        </button>
+    
       </div>
 
       {showModal && <OrderFormModal onClose={() => setShowModal(false)} />}

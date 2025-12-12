@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+@layer components {
+  .nav-link {
+    @apply text-gray-700 hover:text-pink-600 font-medium transition;
+  }
+
+  .mobile-link {
+    @apply block text-gray-700 font-medium hover:text-pink-600;
+  }
+
+  .cart-badge {
+    @apply absolute -top-2 -right-3 bg-pink-600 text-white text-xs px-2 py-0.5 rounded-full;
+  }
+
+  .user-option {
+    @apply flex items-center gap-3 w-full text-left hover:text-pink-600 cursor-pointer;
+  }
+
+  .animate-slide-down {
+    animation: slideDown 0.25s ease-out;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+

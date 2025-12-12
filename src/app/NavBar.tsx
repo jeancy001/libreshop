@@ -1,186 +1,117 @@
-import React, { useState } from 'react';
-import { ShoppingCart, User, Menu, X, ShoppingBag  } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { FaSignInAlt, FaCog, FaLifeRing } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
-import { RootState } from '../features/store/store';
-import { useAuth } from '../context/AuthContext';
+import React, { useState } from "react";
+import { ShoppingCart, User, ShoppingBag } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { FaSignInAlt, FaCog, FaLifeRing } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { RootState } from "../features/store/store";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [openModalUser, setOpenModalUser] = useState<boolean>(false);
-  const cartItems = useSelector((state: RootState) => state.cart.cart);
+  const [openModalUser, setOpenModalUser] = useState(false);
 
+  const cartItems = useSelector((state: RootState) => state.cart.cart);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleModalUser = () => {
-    setOpenModalUser(!openModalUser);
-  };
-
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-        {/* Logo Section */}
-<div
-  onClick={() => navigate('/')}
-  className="flex items-center gap-2 cursor-pointer transition-transform duration-300 hover:scale-105"
->
-  <ShoppingBag className="w-8 h-8 text-pink-600" strokeWidth={2.5} />
-  <span className="text-2xl font-bold text-pink-600">LibreShop</span>
-</div>
+    <nav className="fixed bg-white shadow-md sticky top-0 z-50 border-b-5 mb-20 border-b-10 ">
+      <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap gap-4 items-center justify-between">
 
-        {/* Desktop Links */}
-        <div className="hidden md:flex space-x-6 items-center">
-          <a href="/" className="text-gray-700 hover:text-pink-600 transition">Home</a>
-          <a href="/shop" className="text-gray-700 hover:text-pink-600 transition">Shop</a>
-          {user && user.role === "admin" ? (
-            <a href="/dash" className="text-gray-700 hover:text-pink-600 transition">Dashboard</a>
+        {/* LEFT — COMPANY LOGO */}
+        <div 
+          onClick={() => navigate("/")} 
+          className="flex items-center gap-2 cursor-pointer transition hover:scale-105"
+        >
+          <ShoppingBag className="w-8 h-8 text-pink-600" />
+          <span className="text-2xl font-bold text-pink-600">LibreShop</span>
+        </div>
+
+        {/* CENTER — MENU LINKS (Always visible) */}
+        <div className="flex items-center gap-6 text-gray-700 mx-auto">
+          <a href="/" className="nav-link hover:text-pink-600 font-medium">Home</a>
+          <a href="/shop" className="nav-link hover:text-pink-600 font-medium">Shop</a>
+
+          {user?.role === "admin" ? (
+            <a href="/dash" className="nav-link hover:text-pink-600 font-medium">Dashboard</a>
           ) : (
-            <a href="/contact" className="text-gray-700 hover:text-pink-600 transition">Contact</a>
+            <a href="/contact" className="nav-link hover:text-pink-600 font-medium">Contact</a>
           )}
+        </div>
 
-          <div className="relative flex items-center cursor-pointer">
-            <ShoppingCart
-              onClick={() => navigate('/cart')}
-              className="w-6 h-6 text-gray-700 hover:text-pink-600 transition"
-            />
+        {/* RIGHT — CART + USER */}
+        <div className="flex items-center gap-6">
+
+          {/* CART */}
+          <div
+            onClick={() => navigate("/cart")}
+            className="relative cursor-pointer"
+          >
+            <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-pink-600" />
             {cartItems.length > 0 && (
-              <span className="absolute -top-2 -right-3 bg-pink-600 text-white text-xs px-2 py-0.5 rounded-full">
+              <span className="absolute -top-2 -right-2 bg-pink-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                 {cartItems.length}
               </span>
             )}
           </div>
 
+          {/* USER */}
           <User
-            onClick={handleModalUser}
-            className="w-6 h-6 text-gray-700 hover:text-pink-600 cursor-pointer transition"
+            onClick={() => setOpenModalUser(true)}
+            className="w-6 h-6 cursor-pointer text-gray-700 hover:text-pink-600"
           />
-        </div>
-
-        {/* Mobile Toggle */}
-        <div className="md:hidden">
-          <button onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-white px-4 pb-4 space-y-2 shadow-sm">
-          <a href="/" className="block text-gray-700 hover:text-pink-600">Home</a>
-          <a href="/shop" className="block text-gray-700 hover:text-pink-600">Shop</a>
-          <a href="/contact" className="block text-gray-700 hover:text-pink-600">Contact</a>
-          <div className="flex items-center space-x-4 pt-2">
-            <div className="relative">
-              <ShoppingCart
-                onClick={() => navigate('/cart')}
-                className="w-6 h-6 text-gray-700 hover:text-pink-600 cursor-pointer"
-              />
-              {cartItems.length > 0 && (
-                <span className="absolute -top-2 -right-3 bg-pink-600 text-white text-xs px-2 py-0.5 rounded-full">
-                  {cartItems.length}
-                </span>
-              )}
-            </div>
-            <User
-              onClick={handleModalUser}
-              className="w-6 h-6 text-gray-700 hover:text-pink-600 cursor-pointer"
-            />
-          </div>
-        </div>
-      )}
-
-      {/* User Menu Modal */}
+      {/* USER MODAL */}
       {openModalUser && (
-        <>
-          {/* Mobile View Modal */}
-          <div className="fixed inset-0 z-50 bg-white p-6 md:hidden overflow-y-auto shadow-xl">
-            <div className="flex items-center space-x-4 mb-3">
+        <div className="fixed inset-0 bg-black/40 z-50 flex justify-center items-center">
+          <div className="bg-white rounded-xl w-80 p-6 shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
               <img
-                className="w-10 h-10 rounded-full object-cover"
-                src={user?.profileUrl ? user.profileUrl : "/profile.png"}
-                alt={user?.username}
+                className="w-12 h-12 rounded-full object-cover"
+                src={user?.profileUrl || "/profile.png"}
+                alt="profile"
               />
-              <a href="#" className="text-lg font-semibold text-gray-800 hover:border-b-2 border-pink-600">{user?.username}</a>
-              <a href={user ? "/profile" : "/login"} className="text-pink-600 hover:underline">Profile</a>
+              <div>
+                <p className="font-semibold text-gray-800">{user?.username}</p>
+                <a href="/profile" className="text-pink-600 text-sm hover:underline">
+                  View Profile
+                </a>
+              </div>
             </div>
 
-            <div className="flex flex-col space-y-4 text-gray-700 text-base">
-              <span className="flex items-center gap-3 hover:text-pink-600 cursor-pointer">
-                <FaCog /> Settings
-              </span>
-              <span className="flex items-center gap-3 hover:text-pink-600 cursor-pointer">
-                <FaLifeRing /> Support
-              </span>
+            <div className="space-y-3 text-gray-700 text-sm">
+              <button className="user-option"><FaCog /> Settings</button>
+              <button className="user-option"><FaLifeRing /> Support</button>
+
               {user ? (
-                <span
+                <button
                   onClick={async () => {
                     await logout();
                     navigate("/login");
                   }}
-                  className="flex items-center gap-2 hover:text-pink-600 cursor-pointer"
+                  className="user-option text-red-600"
                 >
                   <FaSignInAlt /> Logout
-                </span>
+                </button>
               ) : (
-                <span
+                <button
                   onClick={() => navigate("/login")}
-                  className="flex items-center gap-2 hover:text-pink-600 cursor-pointer"
+                  className="user-option"
                 >
                   <FaSignInAlt /> Login
-                </span>
+                </button>
               )}
             </div>
+
             <button
               onClick={() => setOpenModalUser(false)}
-              className="mt-6 w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 px-4 rounded"
+              className="mt-5 bg-pink-600 text-white w-full py-2 rounded-lg hover:bg-pink-700"
             >
               Close
             </button>
           </div>
-
-          {/* Desktop Dropdown */}
-          <div className="hidden md:block absolute top-16 right-4 z-50 bg-white shadow-lg rounded-lg w-72 p-5 border">
-            <div className="flex items-center space-x-4 mb-3">
-              <img
-                className="w-10 h-10 rounded-full object-cover"
-                src={user?.profileUrl ? user.profileUrl : "/profile.png"}
-                alt={user?.username}
-              />
-              <a href="#" className="text-lg font-semibold text-gray-800 hover:border-b-2 border-pink-600">{user?.username}</a>
-              <a href={user ? "/profile" : "/login"} className="text-pink-600 hover:underline">Profile</a>
-            </div>
-
-            <div className="flex flex-col space-y-3 text-gray-700 text-sm">
-              <span className="flex items-center gap-2 hover:text-pink-600 cursor-pointer">
-                <FaCog /> Settings
-              </span>
-              <span className="flex items-center gap-2 hover:text-pink-600 cursor-pointer">
-                <FaLifeRing /> Support
-              </span>
-              {user ? (
-                <span
-                  onClick={async () => {
-                    await logout();
-                    navigate("/login");
-                  }}
-                  className="flex items-center gap-2 hover:text-pink-600 cursor-pointer"
-                >
-                  <FaSignInAlt /> Logout
-                </span>
-              ) : (
-                <span
-                  onClick={() => navigate("/login")}
-                  className="flex items-center gap-2 hover:text-pink-600 cursor-pointer"
-                >
-                  <FaSignInAlt /> Login
-                </span>
-              )}
-            </div>
-          </div>
-        </>
+        </div>
       )}
     </nav>
   );

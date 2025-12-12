@@ -8,7 +8,7 @@ interface SearchProps {
 
 const SearchBar: React.FC<SearchProps> = ({ search, setSearch }) => {
   return (
-    <div className="fixed absolute top-20 right-4 w-full max-w-md px-4 z-10">
+    <div className="fixed absolute top-20 right-4 w-full max-w-md px-4 z-10 mt-10">
       <div className="relative">
         <input
           type="search"
