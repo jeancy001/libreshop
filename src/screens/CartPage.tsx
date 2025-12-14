@@ -175,8 +175,12 @@ const CartPage: React.FC = () => {
 
   const totalPrice = totalPrice1-priceAfterApaymentToOwner
 
+
+  
+
    console.log("Normal Price : ",totalPrice)
   console.log("Price : ",priceAfterApaymentToOwner)
+ 
 
   if (cartItems.length === 0) {
     return (
@@ -186,8 +190,6 @@ const CartPage: React.FC = () => {
     );
   }
 
-// Automatic payment 
-//send to  the  backend  and  for  the  services
 
   return (
     <div className="max-w-5xl mx-auto p-6">
@@ -267,11 +269,11 @@ const CartPage: React.FC = () => {
         )}
       </div>
 
-
         <div className="mt-6 text-right">
        <span className="text-2xl text-gray-700">Order and pay on Devivery </span>
          </div>
-
+    
+        
 
       <div className="mt-6 text-right">
 

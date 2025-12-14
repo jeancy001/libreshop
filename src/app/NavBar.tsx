@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="fixed bg-white shadow-md sticky top-0 z-50 border-b-5 mb-20 border-b-10 ">
+    <nav className="fixed bg-white shadow-md sticky top-0 z-50 border-b-5  border-b-10 ">
       <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap gap-4 items-center justify-between">
 
         {/* LEFT — COMPANY LOGO */}

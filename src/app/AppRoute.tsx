@@ -16,21 +16,31 @@ import Footer from "../components/Footer";
 import Dashboard from "../dashboard/Dashboard";
 import Shopping from "../components/Shopping";
 import Contact from "../components/Contact";
+import SubscribePage from "./SubscribePage";
 
 const AppRoute: React.FC = () => {
-  const { user } = useAuth();
+  const { user, subscription } = useAuth();
 
   return (
     <Router>
-      {/* Page container with flex layout */}
       <div className="flex flex-col min-h-screen">
         <Navbar />
-        
-        {/* Main content area grows to push footer down */}
         <div className="flex-grow">
           <Routes>
-            <Route path="/" element={<Home />} />
+            {/* Home page: show SubscribePage if user has no active subscription */}
+            <Route
+              path="/"
+              element={
+                user && (!subscription || !subscription.isActive) ? (
+                  <SubscribePage />
+                ) : (
+                  <Home />
+                )
+              }
+            />
+
             <Route path="/product/:id" element={<SingleProduct />} />
+
             <Route
               path="/cart"
               element={
@@ -52,8 +62,6 @@ const AppRoute: React.FC = () => {
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </div>
-
-        {/* Footer stays at bottom */}
         <Footer />
       </div>
     </Router>
